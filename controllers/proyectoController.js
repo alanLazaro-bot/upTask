@@ -1,4 +1,7 @@
-const {validationResult } = require("express-validator");
+const {check, validationResult } = require("express-validator");
+let db = require('../database/models')
+
+
 
 module.exports = {
 
@@ -12,9 +15,12 @@ module.exports = {
         res.render('nuevoProyecto', { title:'Nuevo Proyecto', nombrePagina: 'Nuevo Proyecto'  });
     },
     
-    enviarNuevo:function(req,res){
-        //Enviar a la consola lo que el usuario escriba
-        //console.log(req.body)
+    enviarNuevo: async function(req,res){
+        const nombre = req.body.nombre;
+        
+        const proyecto = await db.proyecto.create({nombre});
+        res.redirect('/');
+       
         
         
         
