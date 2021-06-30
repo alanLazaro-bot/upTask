@@ -7,12 +7,13 @@
     <%- include('partials/header.ejs', title)  %> 
 
     <main class="contenedor">
-      <%- include('partials/sideBar.ejs')  %> 
+      <%- include('partials/sideBar.ejs',proyectos)  %> 
 
       <div class="contenido-principal">
         <h1><%=nombrePagina%> </h1>
-
+      
       </div>
+      <pre><%= vardump(proyectos) %> </pre>
    
 
     </main>

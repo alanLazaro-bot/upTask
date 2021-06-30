@@ -1,4 +1,5 @@
 const {check, validationResult } = require("express-validator");
+
 let db = require('../database/models')
 
 
@@ -6,24 +7,52 @@ let db = require('../database/models')
 module.exports = {
 
     
-    index:function(req,res){
-        res.render('index', { title: 'Proyectos', nombrePagina: 'Inicio' });
+    index: async(req,res)=>{
+        const proyectos = await db.proyecto.findAll();
+        res.render('index', 
+        { title: `Proyectos ${res.locals.year}`,
+         nombrePagina: `Proyectos ${res.locals.year}`,
+         proyectos });
 
     },
 
-    nuevo:function(req,res){
-        res.render('nuevoProyecto', { title:'Nuevo Proyecto', nombrePagina: 'Nuevo Proyecto'  });
+    nuevo:async (req,res)=>{
+       
+        const proyectos = await db.proyecto.findAll();
+        res.render('nuevoProyecto', 
+        { title: 'Nuevo Proyecto',
+         nombrePagina: 'Nuevo Proyecto',
+         proyectos });
     },
     
-    enviarNuevo: async function(req,res){
+    enviarNuevo : async(req,res)=>{
+    
+
         const nombre = req.body.nombre;
         
-        const proyecto = await db.proyecto.create({nombre});
-        res.redirect('/');
-       
+        const proyectos = await db.proyecto.create({nombre});
+        res.redirect('/');   
         
-        
-        
-        
+    },
+
+    proyectoPorUrl: async(req,res)=>{
+        const proyectos = await db.proyecto.findAll();
+
+
+       const proyecto =  await db.proyecto.findOne({
+           where:{
+               url:req.params.url
+           }
+        });
+      if(!proyecto) return next();
+
+      //render a la vista
+      res.render('tareas', {
+          title:'Tarea',
+          nombrePagina:'Tareas del Proyecto',
+          proyecto,
+          proyectos
+      });
+
     }
 }

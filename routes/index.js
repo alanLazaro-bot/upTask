@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
 let proyectoController = require ('../controllers/proyectoController.js');
+const {body} = require('express-validator');
 
 /* GET home page. */
 router.get('/', proyectoController.index);
 router.get('/nuevo-proyecto',proyectoController.nuevo);
-router.post('/nuevo-proyecto', proyectoController.enviarNuevo);
+router.post('/nuevo-proyecto',
+
+body('nombre').not().isEmpty().trim().escape(),
+
+proyectoController.enviarNuevo);
+
+router.get('/proyectos/:url', proyectoController.proyectoPorUrl);
 
 
 module.exports = router;

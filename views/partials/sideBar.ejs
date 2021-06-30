@@ -5,15 +5,12 @@
     <div class="panel lista-proyectos">
       <h2>Proyectos</h2>
       <ul>
-        <li >
-          <a href="#">Diseño de Tienda Virtual</a>
-        </li>
-        <li>
-          <a href="#">Diseño del Nuevo Blog</a>
-        </li>
-        <li>
-          <a href="#">Diseño de Logotipo</a>
-        </li>
+        <% if(proyectos.length){ %> 
+          <% proyectos.forEach(e=>{%> 
+              <li >
+              <a href='/proyectos/<%= e.url %> '><%= e.nombre %></a>
+              </li>
+              <% })} %> 
 
       </ul>
 

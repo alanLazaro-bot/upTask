@@ -3,16 +3,32 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const helpers = require('./middlewares/helpers');
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { networkInterfaces } = require('os');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//Pasar vardump a la aplicacion
+app.use((req,res, next)=>{
+  res.locals.vardump = helpers.vardump;
+  next();
+});
+
+//Middleware para el año
+app.use((req,res,next)=>{
+  const fecha = new Date();
+  res.locals.year = fecha.getFullYear();
+  next();
+});
+
 
 app.use(logger('dev'));
 app.use(express.json());
