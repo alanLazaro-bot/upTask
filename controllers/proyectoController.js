@@ -30,21 +30,21 @@ module.exports = {
 
         const nombre = req.body.nombre;
         
-        const proyectos = await db.proyecto.create({nombre});
+        await db.proyecto.create({nombre});
         res.redirect('/');   
         
     },
 
     proyectoPorUrl: async(req,res)=>{
-        const proyectos = await db.proyecto.findAll();
+        const proyectosPromise = db.proyecto.findAll();
 
-
-       const proyecto =  await db.proyecto.findOne({
-           where:{
-               url:req.params.url
-           }
+        const proyectoPromise = db.proyecto.findOne({
+            where:{
+                url:req.params.url
+            }
         });
-      if(!proyecto) return next();
+        const [proyectos,proyecto] = await Promise.all([proyectosPromise,proyectoPromise])
+      
 
       //render a la vista
       res.render('tareas', {
@@ -53,6 +53,46 @@ module.exports = {
           proyecto,
           proyectos
       });
+
+    },
+
+    formularioEditar: async(req,res)=>{
+
+
+        const proyectosPromise = db.proyecto.findAll();
+
+        const proyectoPromise = db.proyecto.findOne({
+            where:{
+                id:req.params.id
+            }
+        });
+        const [proyectos,proyecto] = await Promise.all([proyectosPromise,proyectoPromise])
+
+        res.render('editarProyecto',{
+            title:'Tarea',
+            nombrePagina:'Editar Proyecto',
+            proyectos,
+            proyecto
+
+
+        });
+
+    },
+    actualizarProyecto: async(req,res)=>{
+    
+
+        const nombre = req.body.nombre;
+        
+        await db.proyecto.update(
+            {nombre:nombre},
+            {where:{
+                id:req.params.id
+            }}
+            
+            
+            );
+        res.redirect('/');   
+         
 
     }
 }

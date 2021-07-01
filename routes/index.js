@@ -14,5 +14,14 @@ proyectoController.enviarNuevo);
 
 router.get('/proyectos/:url', proyectoController.proyectoPorUrl);
 
+//Actualizar Proyecto
+
+router.get('/proyecto/editar/:id', proyectoController.formularioEditar);
+router.post('/nuevo-proyecto/:id',
+
+body('nombre').not().isEmpty().trim().escape(),
+
+proyectoController.actualizarProyecto);
+
 
 module.exports = router;

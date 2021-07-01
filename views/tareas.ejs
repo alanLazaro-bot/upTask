@@ -8,13 +8,19 @@
         <%- include('partials/sideBar.ejs', proyectos)  %> 
         
         <div class="contenido-principal">
-            <h1><%=nombrePagina%> </h1>
+            <h1><%=nombrePagina%> - <%= proyecto.nombre %>  </h1>
+            <pre><% vardump(proyecto)  %>  </pre>
+
+            <div class="contenedor-acciones">
+                <a href="/proyecto/editar/<%= proyecto.id %> " class="boton">Editar Proyecto</a>
+                <button class="boton eliminar" type="button" id="eliminar-proyecto" >Eliminar Proyecto</button>
+        
+            </div>
 
           </div>
 
-      
-
     </main>
+  
 
 
     

@@ -28,7 +28,7 @@ module.exports = function(sequelize, dataTypes) {
             beforeCreate(proyecto){
                 console.log('Antes de insertar en la BD')
                 const url = slug(proyecto.nombre).toLowerCase();
-                proyecto.url = `${url}-${shortid.generate()}`
+                proyecto.url = `${url}-${shortId.generate()}`
             }
         }
         
